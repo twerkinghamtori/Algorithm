@@ -37,25 +37,26 @@ public class SkillTree {
 		int answer = 0;
 		List<Integer> list = new ArrayList<>();
 		int cnt=0;
-		for(int i=0; i<skill_trees.length; i++) {
-			for(int a=0; a<skill_trees[i].length(); a++) {
+		for(int i=0; i<skill_trees.length; i++) { //3중 for문 개에바인듯ㅋ
+			for(int a=0; a<skill_trees[i].length(); a++) { //C,B,D를 0,1,2로 생각하고 skill_trees에 있다면 해당하는 숫자를 list에 추가
 				for(int j=0; j<skill.length(); j++) {
 					if(skill_trees[i].charAt(a) == (skill.charAt(j))) {
-						list.add(j);
+						list.add(j); 
 					}
 				}
-			}
-//			System.out.println(list);
+			} //ex. C,B,D -> B,A,C,D,E => list [1,0,2]
+			  //ex. C,B,D -> C,B,A,D,F => list [0,1,2]
+//			System.out.println(list); //확인용
 			if(list.contains(0)) {
-				cnt++;
-				for(int l=0; l<list.size()-1; l++) {
-					if(list.get(l)>list.get(l+1)) cnt--;
+				cnt++; //0없이 1,2만 나오면 안되니까 0갖고 있으면 cnt증가
+				for(int l=0; l<list.size()-1; l++) { //for문 하나 더 있지롱^^
+					if(list.get(l)>list.get(l+1)) cnt--; //근데 순서가 0,1,2 순서가 안맞으면 다시 cnt감소
 				}
 			}
 //			System.out.println(cnt);
-			if(cnt>=1) answer++;
+			if(cnt>=1) answer++; //list[1,0,2] -> 0있으니까 cnt=1 -> 순서 안맞으니까 cnt=0// 조건 모두 만족하는 애들만 answer증가.
 			cnt=0;
-			list.clear();
+			list.clear(); //그래도 이번문제는 list 썼다 휴.
 		}
 		return answer;
 	}
