@@ -55,7 +55,7 @@ public class CowHair {
 		}
 		System.out.println(cnt);
 		
-		//스택으로 풀 수 있다고..?
+		//스택으로 풀 수 있다고..? 모르게쑴ㅠ
 		Stack<Integer> stack = new Stack<>();
 		for(Integer i : hi) {
 			for(int a=0; a<hi.length-1; a++) {
