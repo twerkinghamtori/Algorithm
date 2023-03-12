@@ -45,7 +45,7 @@ public class SkillTree {
 					}
 				}
 			}
-			System.out.println(list);
+//			System.out.println(list);
 			if(list.contains(0)) {
 				cnt++;
 				for(int l=0; l<list.size()-1; l++) {
