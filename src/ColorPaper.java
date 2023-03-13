@@ -3,9 +3,12 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Reader;
+import java.util.Arrays;
 import java.util.Scanner;
 import java.util.function.Consumer;
 import java.util.function.Function;
+import java.util.function.ToIntFunction;
+import java.util.stream.IntStream;
 
 /*가로, 세로의 크기가 각각 100인 정사각형 모양의 흰색 도화지가 있다. 
 이 도화지 위에 가로, 세로의 크기가 각각 10인 정사각형 모양의 검은색 색종이를 색종이의 변과 도화지의 변이 평행하도록 붙인다. 
@@ -37,28 +40,30 @@ public class ColorPaper {
 		System.out.println("색종이 갯수를 입력하세요.");
 		int hm = scan.nextInt();
 		System.out.println("각 종이의 위치를 입력하세요.");
-		int simpleWidth = hm*100;
 		int[][] square = new int [100][100];
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-		System.out.println(br.readLine());
-		//사각형 만큼 1씩 배열 값을 증가시켜서 겹치는 부분=2이상, 그러면 그 넓이 만큼 빼는 식으로 못하나?
-		//stream 개어렵다 ㅁㅊ
-		br.readLine().map(s-> {
+//		System.out.println(br.readLine());
+		//사각형 만큼 1씩 배열 값을 증가시켜서 겹치는 부분=2이상, 그러면 1인 부분만 count.
+		//개어렵다 ㅁㅊ 
+		ToIntFunction<String> f =  s-> {
 			String[] str = s.split(" ");
 			int left = Integer.parseInt(str[0]);
 			int bottom = Integer.parseInt(str[1]);
-		})mapToInt(Integer::intValue);
-		for(int i=0; i<10; i++) {
-			square[left+i][bottom+10-i]+=1;
-		}
-		int cnt=0;
-		for(int i=0; i<square.length; i++) {
-			for(int j=0; j<square[i].length; j++) {
-				if(square[i][j]>1) {
-					cnt++;
+			for(int i=1; i<=10; i++) {
+				for(int j=1; j<=10; j++) {
+					square[left+i][100-bottom-j]+=1;
 				}
-			}				
-		}
-		return cnt;
+			}
+			int cnt=0;
+			for(int i=0; i<square.length; i++) {
+				for(int j=0; j<square[i].length; j++) {
+					if(square[i][j]==1) {
+						cnt++;
+					}
+				}				
+			}
+			return cnt;
+		};
+		System.out.println(br.lines().mapToInt(f).sum());
 	}
 }
