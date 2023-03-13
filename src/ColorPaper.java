@@ -3,7 +3,9 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Reader;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 import java.util.Scanner;
 import java.util.function.Consumer;
 import java.util.function.Function;
@@ -51,7 +53,7 @@ public class ColorPaper {
 			int bottom = Integer.parseInt(str[1]);
 			for(int i=1; i<=10; i++) {
 				for(int j=1; j<=10; j++) {
-					square[left+i][100-bottom-j]+=1;
+					square[left+i][100-bottom-j]=1;
 				}
 			}
 			int cnt=0;
@@ -64,6 +66,11 @@ public class ColorPaper {
 			}
 			return cnt;
 		};
-		System.out.println(br.lines().mapToInt(f).sum());
+		String str = null ;
+		int tot =0;
+		while((str = br.readLine()) != null) {
+			tot = br.lines().mapToInt(f).sum();
+		}
+		System.out.println(tot);
 	}
 }
