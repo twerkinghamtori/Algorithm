@@ -17,7 +17,7 @@
  	        
     B 배열 : A 배열에서 지정된 내용으로 그대로 배열 복원하기	        
 */
-public class MatrixInfo {
+public class MatrixInfo2 {
 	static int[][] a = {
 			{7,4,4},
 			{0,3,9},

@@ -1,6 +1,6 @@
-package jinkyu;
+
 /*
- * stack
+* stack
  */
 import java.util.Stack;
 
