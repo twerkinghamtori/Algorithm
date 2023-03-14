@@ -42,14 +42,14 @@ public class FunctionDeveloping {
 		int cnt=0;
 		for(int i=0; i<leftdays.length; i++) {
 			for(int j=i; j<leftdays.length; j++) {
-				cnt++;
-				if(leftdays[i]==leftdays[j]) continue;
-				if(leftdays[i]<leftdays[j]) {
-					list.add(cnt);
-					break;
+				if(leftdays[i]==leftdays[j]) continue; 
+				else if(leftdays[i]>leftdays[j]) {
+					cnt++;
+					i+=1;
 				}
-				
+				else break;
 			}
+			list.add(cnt);
 			cnt=0;
 		}
 		int[] answer = new int[list.size()];
@@ -64,6 +64,4 @@ public class FunctionDeveloping {
 		}
 		System.out.println();
 	}
-
 }
-
