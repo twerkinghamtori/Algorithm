@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /* 
@@ -37,25 +38,28 @@ public class FunctionDeveloping {
 				leftdays[i] = (int)((100-prog[i]) / sp[i])+1;
 			}
 		}
+//		System.out.println(Arrays.toString(leftdays));
 		int cnt=0;
 		for(int i=0; i<leftdays.length; i++) {
 			for(int j=i; j<leftdays.length; j++) {
+				cnt++;
+				if(leftdays[i]==leftdays[j]) continue;
 				if(leftdays[i]<leftdays[j]) {
 					list.add(cnt);
 					break;
 				}
-				cnt++;
+				
 			}
 			cnt=0;
 		}
 		int[] answer = new int[list.size()];
 		for(int i=0; i<answer.length; i++) {
-			answer[i] = list.get(i);
+			answer[i] = list.get(i)+1;
 		}
 		return answer;
 	}
 	public static void main(String[] args) {
-		for(int i : solution(new int[] {93,30,55}, new int[] {1,30,5})) {
+		for(int i : solution(new int[] {93,30,55,10,50}, new int[] {1,30,5,2,10})) {
 			System.out.print(i + ",");
 		}
 		System.out.println();

@@ -52,6 +52,7 @@ public class CowHair {
 					break;
 				}
 			}
+			System.out.println(cnt);
 		}
 		System.out.println(cnt);
 		
