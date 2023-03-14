@@ -1,6 +1,9 @@
 
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 /*
@@ -26,8 +29,52 @@ nums	result
 [2,4,7]을 이용해서 13을 만들 수 있습니다.
 [4,6,7]을 이용해서 17을 만들 수 있습니다. */
 public class MakePrimaryNum {
+	private static int cnt=0;
+	private static List<int[]> list = new ArrayList<>();
+	public static void combine(int[] nums, boolean[] checked, int start) {
+		if(cnt==3) {
+			System.out.println(Arrays.toString(checked));
+			int[] temp = new int[nums.length];
+			for(int i=0; i<nums.length; i++) {
+				if(checked[i]) {
+					temp[i] = nums[i];
+				}
+			}
+			list.add(temp);
+			System.out.println(Arrays.toString(temp));
+			return;
+		}
+		for(int i=start; i<nums.length; i++) {
+			if (!checked[i]) {
+				checked[i]=true;
+				cnt++;
+				combine(nums, checked, i+1);
+				checked[i]=false;
+				cnt--;
+			}
+		}
+	}
     static int solution(int[] nums) {
         int answer = 0;
+        boolean[] checked = new boolean[nums.length];
+        combine(nums, checked, 0);
+        int[] sum = new int [nums.length];
+        int hap = 0;
+        int cnt=0;
+        for(int[] i : list) {
+        	for(int j=0; j<nums.length; j++) {
+        		hap += i[j];
+        	}
+        	for(int z=1; z<=hap; z++) {
+        		if(hap%z==0) {
+        			cnt++;
+        		}
+        	}
+        	if(cnt==2) answer++; 
+        	cnt=0;
+        	hap=0;
+        }
+        list.clear();
         return answer;
    }
 	public static void main(String[] args) {
