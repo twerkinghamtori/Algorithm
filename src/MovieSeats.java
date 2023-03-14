@@ -1,6 +1,9 @@
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashSet;
+import java.util.List;
 import java.util.Scanner;
+import java.util.Set;
 
 /*극장에 n개의 빈 좌석이 있다. 
 k명의 관객들이 영화를 보기 위해서 왔다. 
@@ -33,16 +36,30 @@ public class MovieSeats {
 				seats[i]=0;
 			}
 		}
+		
 	}
-	
 	public static void main(String[] args) {
 		Scanner scan = new Scanner(System.in);
-		int seats = scan.nextInt();
+		int[] seats = new int[scan.nextInt()];
+		boolean[] checked = new boolean[seats.length];
 		int people = scan.nextInt();
-		int[] seatsplus = new int[seats+2];
-		for(int i=1; i<=seats; i++) {
-			
+		int cnt=0;
+		int cntsum=0;
+		combine(seats,checked, people, 0);
+		HashSet<int[]> set = new HashSet<>(list); //왜 중복제거 안되지?
+		
+		for(int[] i : set) {
+			System.out.println(Arrays.toString(i));
 		}
+		for(int[] i : set) {
+			for(int j=0; j<i.length-1; j++) {
+				if(i[j]==1 && i[j+1]==1) continue;
+				else cnt++;
+			}
+			cntsum+=cnt;
+			cnt=0;
+		}
+		System.out.println(cntsum);
 		
 	}
 }
