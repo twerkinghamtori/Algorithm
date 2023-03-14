@@ -38,7 +38,6 @@ public class FunctionDeveloping {
 				leftdays[i] = (int)((100-prog[i]) / sp[i])+1;
 			}
 		}
-//		System.out.println(Arrays.toString(leftdays));
 		int cnt=0;
 		for(int i=0; i<leftdays.length; i++) {
 			for(int j=i; j<leftdays.length; j++) {
