@@ -63,6 +63,6 @@ public class SkillTree {
 	public static void main(String[] args) {
 		System.out.println
 		("결과:" + solution
-			("CBD", new String[] { "BACDE", "CBADF", "AECB", "BDA" }));
+			("CBD", new String[] { "BACDE", "CBADF", "AECB", "BDA", "AZM" })); //AZM 해결 안됨.
 	}
 }
