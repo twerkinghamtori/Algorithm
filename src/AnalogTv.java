@@ -1,3 +1,5 @@
+import java.util.Arrays;
+
 /*2012년 12월 31일 새벽 4시부터 지상파 아날로그 TV방송이 종료되었다. TV를 자주보는 할머니를 위해서, 상근이네 집도 디지털 수신기를 구입했다.
 원래 상근이네 집에는 KBS1과 KBS2만 나왔다. 할머니는 두 방송만 시청한다. 이제 디지털 수신기와 함께 엄청난 양의 채널을 볼 수 있게 되었다.  
 하지만, 할머니는 오직 KBS1과 KBS2만 보려고 한다. 따라서, 상근이는 채널 리스트를 조절해 KBS1을 첫 번째로, KBS2를 두 번째로 만들려고 한다.
@@ -24,13 +26,43 @@ KBS1
 */
 public class AnalogTv {
 	public static String solution(String[] channel) {
-		
-		return null;
+		StringBuffer sb = new StringBuffer();
+		String temp = "";
+		int k1=0; int k2=0;
+		for(int i=0; i<channel.length; i++) {
+			if(channel[i]=="KBS1") k1=i;
+		}
+		for(int i=0; i<k1; i++) {
+			sb.append("1");
+		}
+		for(int i=0; i<k1; i++) {
+			sb.append("4");
+		}
+		for(int i=0; i<channel.length; i++) {
+			if(channel[i]=="KBS2") k2=i;
+		}
+		if(k1<k2) {
+			for(int i=0; i<k2; i++) {
+				sb.append("1");
+			}
+			for(int i=0; i<k2-1; i++) {
+				sb.append("4");
+			}
+		} else {
+			for(int i=0; i<k2+1; i++) {
+				sb.append("1");
+			}
+			for(int i=0; i<k2; i++) {
+				sb.append("4");
+			}
+		}
+
+		return sb.toString();
 	}
 
 	public static void main(String[] args) {
 		System.out.println(solution(new String[] {"MBC", "KBS1", "KBS2"}));
-		System.out.println(solution(new String[] {"ABC1", "ABC02", "KBS2","KBS1"}));
+		System.out.println(solution(new String[] {"ABC1", "ABC02", "KBS2","CC","KBS1"}));
 	}
 
 }
