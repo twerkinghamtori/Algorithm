@@ -23,9 +23,6 @@ public class ThreeSixNineGame {
 	private static void solution(int start, int end) {
 		long s = System.currentTimeMillis();
 		int[] nums = {0,0,0,1,0,0,1,0,0,1};
-		for(int i=start; i<=end; i++) {
-			if(nums[i%10]==1) 
-		}
 		long e = System.currentTimeMillis();
 		System.out.println("실행시간 : "+((e-s)/1000)+"초");
 		
