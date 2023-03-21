@@ -1,5 +1,6 @@
-package incomplete;
 
+
+import java.util.Arrays;
 import java.util.Scanner;
 
 /*
@@ -45,14 +46,49 @@ import java.util.Scanner;
  */
 public class TicTacToe {
 	static int solution(String[] board) {
-		int answer = -1;
-		
+		int answer = 1;
+		int ocnt=0; int xcnt=0;
+		String[][] ttt = new String[3][3];
+		for(int i=0; i<ttt.length; i++) {
+			for(int j=0; j<ttt[i].length; j++) {
+				ttt[i][j] = board[i].substring(j,j+1);
+			}
+		}
+//		System.out.println(Arrays.deepToString(ttt));
+		for(int i=0; i<board.length; i++) {
+			for(int j=0; j<=2; j++) {
+				if(board[i].substring(j,j+1).contains("O")) ocnt++;
+				if (board[i].substring(j,j+1).contains("X")) xcnt++;
+			}
+		}
+		for(int i=0; i<ttt.length; i++) {
+			if(("O".equals(ttt[i][0])) && ("O".equals(ttt[i][1])) && ("O".equals(ttt[i][2]))) answer=0;
+			if(("X".equals(ttt[i][0])) && ("X".equals(ttt[i][1])) && ("X".equals(ttt[i][2]))) answer=0;
+			if(("O".equals(ttt[0][i])) && ("O".equals(ttt[1][i])) && ("O".equals(ttt[2][i]))) answer=0;
+			if(("X".equals(ttt[0][i])) && ("X".equals(ttt[1][i])) && ("X".equals(ttt[2][i]))) answer=0;
+		}
+		if(("O".equals(ttt[0][0])) && ("O".equals(ttt[1][1])) && ("O".equals(ttt[2][2]))) answer=0;
+		if(("X".equals(ttt[0][0])) && ("X".equals(ttt[1][1])) && ("X".equals(ttt[2][2]))) answer=0;
+		if(("O".equals(ttt[0][2])) && ("O".equals(ttt[1][1])) && ("O".equals(ttt[2][0]))) answer=0;
+		if(("X".equals(ttt[0][2])) && ("X".equals(ttt[1][1])) && ("X".equals(ttt[2][0]))) answer=1;
+		if(ocnt!=xcnt) {
+			if(xcnt>ocnt) answer=0;
+			if(ocnt-xcnt==1) answer=1;
+		}
+		if(ocnt==0) answer=0;
+		if(ocnt==0 && xcnt==0) answer=1;
 		return answer;
 	}
 	public static void main(String[] args) {
-		Scanner scan = new Scanner(System.in);
-		String str = scan.nextLine();
-		String[] board = "{"O.X",".O.","..X"}";
+		System.out.println(solution(new String[] {"O.X",".O.","..."}));
+		System.out.println(solution(new String[] {"OOO","...","XXX"}));
+
+		System.out.println(solution(new String[] {"XXO","OOX","OOX"}));
+		System.out.println(solution(new String[] {"...",".X.","..."}));
 		
+		System.out.println(solution(new String[] {"...",".X.","..."}));
+		System.out.println(solution(new String[] {"...","...","..."}));
+		System.out.println(solution(new String[] {"OOX","X.X","XOO"}));
+		System.out.println(solution(new String[] {"OOX",".X.","X.O"}));
 	}
 }
