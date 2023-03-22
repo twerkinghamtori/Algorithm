@@ -1,4 +1,4 @@
-package incomplete;
+package complete;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
@@ -24,43 +24,39 @@ public class MovieSeats {
 		if(cnt==people) {
 			list.add(Arrays.copyOf(seats, seats.length));
 			return; // for문 안에서 불러온 combine 종료.
-		}
-		
+		}		
 		for(int i=start; i<seats.length; i++) {
 			if(!checked[i]) {
 				checked[i]=true;
 				cnt++;
 				seats[i]=1;
-				combine(seats, checked, people, start+1);
+				combine(seats, checked, people, i+1);
 				checked[i]=false;
 				cnt--;
 				seats[i]=0;
 			}
-		}
-		
+		}		
 	}
 	public static void main(String[] args) {
 		Scanner scan = new Scanner(System.in);
 		int[] seats = new int[scan.nextInt()];
 		boolean[] checked = new boolean[seats.length];
 		int people = scan.nextInt();
-		int cnt=0;
-		int cntsum=0;
 		combine(seats,checked, people, 0);
-		HashSet<int[]> set = new HashSet<>(list); //왜 중복제거 안되지?
-		
-		for(int[] i : set) {
-			System.out.println(Arrays.toString(i));
-		}
-		for(int[] i : set) {
-			for(int j=0; j<i.length-1; j++) {
-				if(i[j]==1 && i[j+1]==1) continue;
-				else cnt++;
+		int answer=0;
+		for(int [] arr: list) {
+			int[] temp = new int[seats.length+2];
+			for(int i=1; i<=seats.length; i++) 
+				temp[i] = arr[i-1];
+			System.out.println(Arrays.toString(temp));
+			for(int i=1; i<=seats.length; i++) {
+				if(temp[i]==1) {
+					if(temp[i-1] == 1 || temp[i+1] == 1) break;
+				}
+				if(i==seats.length) answer++;
 			}
-			cntsum+=cnt;
-			cnt=0;
+//			System.out.println(Arrays.toString(arr));
 		}
-		System.out.println(cntsum);
-		
+		System.out.println(answer);	
 	}
 }
