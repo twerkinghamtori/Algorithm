@@ -106,7 +106,6 @@ public class ExpireDate {
         		}
         	}        	    
         }
-//        System.out.println(Arrays.toString(privacies));
         for(int i=0; i<privacies.length; i++) {
         	if((Integer.parseInt(today.substring(0,4))> (Integer.parseInt(privacies[i].substring(0,4))))) {
         		ans.add(i+1);
