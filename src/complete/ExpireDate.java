@@ -1,3 +1,7 @@
+package complete;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 /*
  * 고객의 약관 동의를 얻어서 수집된 1~n번으로 분류되는 개인정보 n개가 있습니다. 
@@ -61,15 +65,73 @@
  *                                         "2019.08.02 D", "2019.07.01 D", 
  *                                         "2018.12.28 Z"]
  */
-public class ExpireDate {
-	
-	public int[] solution(String today, String[] terms, String[] privacies) {
+public class ExpireDate {	
+	static int[] solution(String today, String[] terms, String[] privacies) {
         int[] answer = {};
+        List<Integer> ans = new ArrayList<>();
+        int m=0; int mplus=0; int y=0;
+        String mm="";
+        String mmm="";
+        for(int i=0; i<privacies.length; i++) {
+        	for(int j=0; j<terms.length; j++) {
+        		if(privacies[i].charAt(11)==terms[j].charAt(0)) {
+        			m = Integer.parseInt(privacies[i].substring(5,7));
+        			if(terms[j].length()==3) {
+        				mplus = Integer.parseInt(terms[j].substring(2,3));
+        			} else if(terms[j].length()==4) {
+        				mplus = Integer.parseInt(terms[j].substring(2,4));
+        			}
+        			m+=mplus;
+        			mm= String.format("%02d", m);
+        			y=Integer.parseInt(privacies[i].substring(0,4));
+        			privacies[i]= privacies[i].replace(privacies[i].substring(5,7), mm);
+        			privacies[i]= privacies[i].replace(privacies[i].substring(0,4), Integer.toString(y));
+        			if(m>12) {
+                		y=Integer.parseInt(privacies[i].substring(0,4));
+                		y+=1;
+                		mm= String.format("%02d", m-12);
+                		privacies[i]= privacies[i].replace(privacies[i].substring(0,4), Integer.toString(y));
+                		privacies[i]= privacies[i].replace(privacies[i].substring(5,7), mm.toString());
+                		
+                	} else {
+                		y=Integer.parseInt(privacies[i].substring(0,4));
+                		privacies[i]= privacies[i].replace(privacies[i].substring(0,4), Integer.toString(y));
+                		mm= String.format("%02d", m);
+                		privacies[i]= privacies[i].replace(privacies[i].substring(5,7), mm.toString());
+                	}
+        			m=0;
+        			mplus=0;
+        			mm="";
+        			y=0;
+        		}
+        	}        	    
+        }
+//        System.out.println(Arrays.toString(privacies));
+        for(int i=0; i<privacies.length; i++) {
+        	if((Integer.parseInt(today.substring(0,4))> (Integer.parseInt(privacies[i].substring(0,4))))) {
+        		ans.add(i+1);
+        	} 
+        	else if((Integer.parseInt(today.substring(0,4)) == (Integer.parseInt(privacies[i].substring(0,4))))) {
+        		if(Integer.parseInt(today.substring(5,7)) > Integer.parseInt(privacies[i].substring(5,7))) {
+        			ans.add(i+1);
+        		} else if(Integer.parseInt(today.substring(5,7)) == Integer.parseInt(privacies[i].substring(5,7))) {
+        			if(Integer.parseInt(today.substring(8,10))>= Integer.parseInt(privacies[i].substring(8,10))) {
+        				ans.add(i+1);
+        			}
+        		}
+        	}
+        }
+        answer=new int[ans.size()];
+        for(int i=0; i<answer.length; i++) {
+        	answer[i]=ans.get(i);
+        }
         return answer;
     }
 
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub
-
+		System.out.println(Arrays.toString(solution("2022.05.19", new String[] {"A 6","B 12","C 3"}, 
+				new String[] {"2021.05.02 A", "2021.07.01 B","2022.02.19 C", "2022.02.20 C"})));
+		System.out.println(Arrays.toString(solution("2020.01.01", new String[] {"Z 3", "D 5"}, 
+				new String[] {"2019.01.01 D", "2019.11.15 Z", "2019.08.02 D", "2019.07.01 D","2018.12.28 Z"})));
 	}
 }
