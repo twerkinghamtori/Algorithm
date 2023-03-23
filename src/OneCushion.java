@@ -1,3 +1,8 @@
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+
 /*
  * 프로그래머스의 마스코트인 머쓱이는 최근 취미로 당구를 치기 시작했습니다.
 머쓱이는 손 대신 날개를 사용해야 해서 당구를 잘 못 칩니다. 
@@ -26,14 +31,74 @@ m    n   startX   startY            balls                 result
 https://school.programmers.co.kr/learn/courses/30/lessons/169198
 */
 public class OneCushion {
+	static int midx;
+	static int midy;
+	static int x;
+	static int y;
+	
+	static int left(int i, int startX, int startY, int[][] balls) {
+        		midx=(startX+balls[i][0])/2;
+        		midy=(startY+balls[i][1])/2;
+        		x=(int)(Math.sqrt(Math.pow((startX-0),2)+Math.pow((startY-midy),2)));
+        		y=(int)(Math.sqrt(Math.pow((balls[i][0]-0),2)+Math.pow((balls[i][1]-midy),2)));
+		return x+y;
+	}
+	
+	static int top(int i, int n, int startX, int startY, int[][] balls) {
+        		midx=(startX+balls[i][0])/2;
+        		midy=(startY+balls[i][1])/2;
+        		x=(int)(Math.sqrt(Math.pow((startX-midx),2)+Math.pow((n-startY),2)));
+        		y=(int)(Math.sqrt(Math.pow((balls[i][0]-midx),2)+Math.pow((n-balls[i][1]),2)));
+		return x+y;
+	}
+	
+	static int right(int i, int m, int startX, int startY, int[][] balls) {
+        		midx=(startX+balls[i][0])/2;
+        		midy=(startY+balls[i][1])/2;
+        		x=(int)(Math.sqrt(Math.pow((m-startX),2)+Math.pow((midy-startY),2)));
+        		y=(int)(Math.sqrt(Math.pow((m-balls[i][0]),2)+Math.pow((midy-balls[i][1]),2)));		
+		return x+y;
+	}
+	
+	static int bottom(int i, int startX, int startY, int[][] balls) {
+        		midx=(startX+balls[i][0])/2;
+        		midy=(startY+balls[i][1])/2;
+        		x=(int)(Math.sqrt(Math.pow((startX-midx),2)+Math.pow((startY-0),2)));
+        		y=(int)(Math.sqrt(Math.pow((balls[i][0]-midx),2)+Math.pow((balls[i][1]-0),2)));
+		return x+y;
+	}
+	
 	static int[] solution(int m, int n, int startX, int startY, int[][] balls) {
-        int[] answer = {};
+        int[] answer = new int [balls.length];
+        int left = startX;
+        int top = n-startY;
+        int right= m-startX;
+        int bottom = startY;
+        List<Integer> list = new ArrayList<>();
+        for(int i=0; i<balls.length; i++) {
+        	left = startX;
+        	top = n-startY;
+        	right= m-startX;
+        	bottom = startY;
+        	list.add(left(i,startX, startY, balls));
+        	list.add(top(i,n,startX, startY, balls));
+        	list.add(right(i,m,startX, startY, balls));
+        	list.add(bottom(i,startX, startY, balls));
+        	answer[i]=Collections.min(list);
+        	list.clear();
+        }
+        
+        for(int i=0; i<answer.length; i++) {
+        	answer[i]=(int)(Math.pow(answer[i], 2));
+        }
         return answer;
     }
 
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub
-
+		System.out.println(Arrays.toString(solution(10,10,3,7, new int[][] {{7,7}, {2,7}, {7,3}})));
+		x=(int)(Math.sqrt(Math.pow((3-5),2)+Math.pow((10-7),2)));
+		y=(int)(Math.sqrt(Math.pow((7-5),2)+Math.pow((10-7),2)));
+		System.out.println(Math.pow(x+y, 2));
 	}
 
 }
