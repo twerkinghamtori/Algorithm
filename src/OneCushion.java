@@ -17,88 +17,81 @@ import java.util.List;
 그리고 매 회마다 목표로 해야하는 공들의 위치 좌표를 나타내는 정수 쌍들이 들어있는 2차원 정수배열 balls가 주어집니다. 
 "원쿠션" 연습을 위해 머쓱이가 공을 적어도 벽에 한 번은 맞춘 후 목표 공에 맞힌다고 할 때, 
 각 회마다 머쓱이가 친 공이 굴러간 거리의 최솟값의 제곱을 배열에 담아 return 하도록 solution 함수를 완성해 주세요.
-
 단, 머쓱이가 친 공이 벽에 부딪힐 때 진행 방향은 항상 입사각과 반사각이 동일하며, 
 만약 꼭짓점에 부딪힐 경우 진입 방향의 반대방향으로 공이 진행됩니다. 
 공의 크기는 무시하며, 두 공의 좌표가 정확히 일치하는 경우에만 두 공이 서로 맞았다고 판단합니다. 
 공이 목표 공에 맞기 전에 멈추는 경우는 없으며, 목표 공에 맞으면 바로 멈춘다고 가정합니다.
-
 [입출력 예]
 m    n   startX   startY            balls                 result
 10   10    3        7       [[7, 7], [2, 7], [7, 3]]    [52, 37, 116]
-
 [그림예시]
 https://school.programmers.co.kr/learn/courses/30/lessons/169198
 */
 public class OneCushion {
-	static int midx;
-	static int midy;
-	static int x;
-	static int y;
+	static double midx;
+	static double midy;
+	static double x;
+	static double y;
 	
-	static int left(int i, int startX, int startY, int[][] balls) {
-        		midx=(startX+balls[i][0])/2;
-        		midy=(startY+balls[i][1])/2;
-        		x=(int)(Math.sqrt(Math.pow((startX-0),2)+Math.pow((startY-midy),2)));
-        		y=(int)(Math.sqrt(Math.pow((balls[i][0]-0),2)+Math.pow((balls[i][1]-midy),2)));
-		return x+y;
+	static double left(int i, int startX, int startY, int[][] balls) {
+        		midx=(double)(startX+balls[i][0])/2;
+        		midy=(double)(startY+balls[i][1])/2;
+        		x=(Math.sqrt(Math.pow((startX-0),2)+Math.pow((startY-midy),2)));
+        		y=(Math.sqrt(Math.pow((balls[i][0]-0),2)+Math.pow((balls[i][1]-midy),2)));
+        		System.out.println(midx);
+        		System.out.println(midy);
+        		System.out.println();
+		return Math.ceil(Math.pow((x+y),2));
 	}
 	
-	static int top(int i, int n, int startX, int startY, int[][] balls) {
-        		midx=(startX+balls[i][0])/2;
-        		midy=(startY+balls[i][1])/2;
-        		x=(int)(Math.sqrt(Math.pow((startX-midx),2)+Math.pow((n-startY),2)));
-        		y=(int)(Math.sqrt(Math.pow((balls[i][0]-midx),2)+Math.pow((n-balls[i][1]),2)));
-		return x+y;
+	static double top(int i, int n, int startX, int startY, int[][] balls) {
+        		midx=(double)(startX+balls[i][0])/2;
+        		midy=(double)(startY+balls[i][1])/2;
+        		x=(Math.sqrt(Math.pow((startX-midx),2)+Math.pow((n-startY),2)));
+        		y=(Math.sqrt(Math.pow((balls[i][0]-midx),2)+Math.pow((n-balls[i][1]),2)));
+        return Math.ceil(Math.pow((x+y),2));
 	}
 	
-	static int right(int i, int m, int startX, int startY, int[][] balls) {
-        		midx=(startX+balls[i][0])/2;
-        		midy=(startY+balls[i][1])/2;
-        		x=(int)(Math.sqrt(Math.pow((m-startX),2)+Math.pow((midy-startY),2)));
-        		y=(int)(Math.sqrt(Math.pow((m-balls[i][0]),2)+Math.pow((midy-balls[i][1]),2)));		
-		return x+y;
+	static double right(int i, int m, int startX, int startY, int[][] balls) {
+        		midx=(double)(startX+balls[i][0])/2;
+        		midy=(double)(startY+balls[i][1])/2;
+        		x=(Math.sqrt(Math.pow((m-startX),2)+Math.pow((midy-startY),2)));
+        		y=(Math.sqrt(Math.pow((m-balls[i][0]),2)+Math.pow((midy-balls[i][1]),2)));
+		return Math.ceil(Math.pow((x+y),2));
 	}
 	
-	static int bottom(int i, int startX, int startY, int[][] balls) {
-        		midx=(startX+balls[i][0])/2;
-        		midy=(startY+balls[i][1])/2;
-        		x=(int)(Math.sqrt(Math.pow((startX-midx),2)+Math.pow((startY-0),2)));
-        		y=(int)(Math.sqrt(Math.pow((balls[i][0]-midx),2)+Math.pow((balls[i][1]-0),2)));
-		return x+y;
+	static double bottom(int i, int startX, int startY, int[][] balls) {
+        		midx=(double)(startX+balls[i][0])/2;
+        		midy=(double)(startY+balls[i][1])/2;
+        		x=(Math.sqrt(Math.pow((startX-midx),2)+Math.pow((startY-0),2)));
+        		y=(Math.sqrt(Math.pow((balls[i][0]-midx),2)+Math.pow((balls[i][1]-0),2)));
+		return Math.ceil(Math.pow((x+y),2));
 	}
 	
 	static int[] solution(int m, int n, int startX, int startY, int[][] balls) {
         int[] answer = new int [balls.length];
-        int left = startX;
-        int top = n-startY;
-        int right= m-startX;
-        int bottom = startY;
-        List<Integer> list = new ArrayList<>();
+        List<Double> list = new ArrayList<>();
         for(int i=0; i<balls.length; i++) {
-        	left = startX;
-        	top = n-startY;
-        	right= m-startX;
-        	bottom = startY;
         	list.add(left(i,startX, startY, balls));
         	list.add(top(i,n,startX, startY, balls));
         	list.add(right(i,m,startX, startY, balls));
         	list.add(bottom(i,startX, startY, balls));
-        	answer[i]=Collections.min(list);
+        	double a = Collections.min(list);
+        	System.out.println(list);
+        	answer[i]=(int)a;
         	list.clear();
-        }
-        
-        for(int i=0; i<answer.length; i++) {
-        	answer[i]=(int)(Math.pow(answer[i], 2));
         }
         return answer;
     }
 
 	public static void main(String[] args) {
 		System.out.println(Arrays.toString(solution(10,10,3,7, new int[][] {{7,7}, {2,7}, {7,3}})));
-		x=(int)(Math.sqrt(Math.pow((3-5),2)+Math.pow((10-7),2)));
-		y=(int)(Math.sqrt(Math.pow((7-5),2)+Math.pow((10-7),2)));
-		System.out.println(Math.pow(x+y, 2));
+		x=(Math.sqrt(Math.pow((3-5),2)+Math.pow((10-7),2)));
+		y=(Math.sqrt(Math.pow((7-5),2)+Math.pow((10-7),2)));
+		x=(Math.sqrt(Math.pow((3-0),2)+Math.pow((7-7.0),2)));
+		y=(Math.sqrt(Math.pow((2-0),2)+Math.pow((7-7.0),2)));
+		System.out.println(x);
+		System.out.println(y);
 	}
 
 }
