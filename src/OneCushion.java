@@ -26,6 +26,10 @@ m    n   startX   startY            balls                 result
 https://school.programmers.co.kr/learn/courses/30/lessons/169198
 */
 public class OneCushion {
+	static int[] solution(int m, int n, int startX, int startY, int[][] balls) {
+        int[] answer = {};
+        return answer;
+    }
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
