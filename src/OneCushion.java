@@ -27,6 +27,22 @@ m    n   startX   startY            balls                 result
 [그림예시]
 https://school.programmers.co.kr/learn/courses/30/lessons/169198
 */
+/*
+ * 1. y좌표가 같은 경우
+ *   -가까운 벽과 거리
+ *   -startX>ballsX
+ *   -startX<ballsX
+ * 2. x좌표가 같은 경우
+ *   -가까운 벽과 거리
+ *   -startY>ballsY
+ *   -startY<ballsY
+ * 3. 다 다른 경우
+ *   -x가 m과 가까운 경우
+ *   -x가 0과 
+ *   -y가 n과
+ *   -y가 0과
+ * 로 나눠서 다시 풀어보기.
+ * */
 public class OneCushion {
 	static double midx;
 	static double midy;
