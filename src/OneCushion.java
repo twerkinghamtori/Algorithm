@@ -38,9 +38,6 @@ public class OneCushion {
         		midy=(double)(startY+balls[i][1])/2;
         		x=(Math.sqrt(Math.pow((startX-0),2)+Math.pow((startY-midy),2)));
         		y=(Math.sqrt(Math.pow((balls[i][0]-0),2)+Math.pow((balls[i][1]-midy),2)));
-        		System.out.println(midx);
-        		System.out.println(midy);
-        		System.out.println();
 		return Math.ceil(Math.pow((x+y),2));
 	}
 	
