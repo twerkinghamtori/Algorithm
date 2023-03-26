@@ -27,84 +27,57 @@ m    n   startX   startY            balls                 result
 [그림예시]
 https://school.programmers.co.kr/learn/courses/30/lessons/169198
 */
-/*
- * 1. y좌표가 같은 경우
- *   -가까운 벽과 거리
- *   -startX>ballsX
- *   -startX<ballsX
- * 2. x좌표가 같은 경우
- *   -가까운 벽과 거리
- *   -startY>ballsY
- *   -startY<ballsY
- * 3. 다 다른 경우
- *   -x가 m과 가까운 경우
- *   -x가 0과 
- *   -y가 n과
- *   -y가 0과
- * 로 나눠서 다시 풀어보기.
- * */
 public class OneCushion {
-	static double midx;
-	static double midy;
-	static double x;
-	static double y;
-	
-	static double left(int i, int startX, int startY, int[][] balls) {
-        		midx=(double)(startX+balls[i][0])/2;
-        		midy=(double)(startY+balls[i][1])/2;
-        		x=(Math.sqrt(Math.pow((startX-0),2)+Math.pow((startY-midy),2)));
-        		y=(Math.sqrt(Math.pow((balls[i][0]-0),2)+Math.pow((balls[i][1]-midy),2)));
-		return Math.ceil(Math.pow((x+y),2));
-	}
-	
-	static double top(int i, int n, int startX, int startY, int[][] balls) {
-        		midx=(double)(startX+balls[i][0])/2;
-        		midy=(double)(startY+balls[i][1])/2;
-        		x=(Math.sqrt(Math.pow((startX-midx),2)+Math.pow((n-startY),2)));
-        		y=(Math.sqrt(Math.pow((balls[i][0]-midx),2)+Math.pow((n-balls[i][1]),2)));
-        return Math.ceil(Math.pow((x+y),2));
-	}
-	
-	static double right(int i, int m, int startX, int startY, int[][] balls) {
-        		midx=(double)(startX+balls[i][0])/2;
-        		midy=(double)(startY+balls[i][1])/2;
-        		x=(Math.sqrt(Math.pow((m-startX),2)+Math.pow((midy-startY),2)));
-        		y=(Math.sqrt(Math.pow((m-balls[i][0]),2)+Math.pow((midy-balls[i][1]),2)));
-		return Math.ceil(Math.pow((x+y),2));
-	}
-	
-	static double bottom(int i, int startX, int startY, int[][] balls) {
-        		midx=(double)(startX+balls[i][0])/2;
-        		midy=(double)(startY+balls[i][1])/2;
-        		x=(Math.sqrt(Math.pow((startX-midx),2)+Math.pow((startY-0),2)));
-        		y=(Math.sqrt(Math.pow((balls[i][0]-midx),2)+Math.pow((balls[i][1]-0),2)));
-		return Math.ceil(Math.pow((x+y),2));
-	}
-	
+	//점들 간 거리 구하는 공식이 아니라 피타고라스 공식으로 직각삼각형 만들어서 빗변의 길이로 거리 구함.
 	static int[] solution(int m, int n, int startX, int startY, int[][] balls) {
         int[] answer = new int [balls.length];
-        List<Double> list = new ArrayList<>();
+        int[] arr = new int[4];
         for(int i=0; i<balls.length; i++) {
-        	list.add(left(i,startX, startY, balls));
-        	list.add(top(i,n,startX, startY, balls));
-        	list.add(right(i,m,startX, startY, balls));
-        	list.add(bottom(i,startX, startY, balls));
-        	double a = Collections.min(list);
-        	System.out.println(list);
-        	answer[i]=(int)a;
-        	list.clear();
+        	if(startY==balls[i][1]) {
+        		int minY = Math.min(n-startY, startY);
+        		arr[0]=(int)Math.pow(balls[i][0]-startX, 2) + (int)Math.pow(minY*2, 2);
+        		if(startX<balls[i][0]) { //직선 원쿠션
+        			arr[1]=(int)Math.pow(startX+balls[i][0], 2);
+        		}else{
+        			arr[1]=(int)Math.pow((m-startX)+(m-balls[i][0]), 2);
+        		}
+        		answer[i] = Math.min(arr[0], arr[1]);
+        	}
+        	else if(startX==balls[i][0]) {
+        		int minX=Math.min(m-startX, startX);
+        		arr[0]=(int)Math.pow(balls[i][1]-startY,2) + (int)Math.pow(minX*2, 2);
+        		if(startY<balls[i][1]) {
+        			arr[1]=(int)Math.pow(startY+balls[i][1], 2);
+        		}else {
+        			arr[1]=(int)Math.pow((n-startY)+(n-balls[i][1]), 2);
+        		}
+        		answer[i] = Math.min(arr[0], arr[1]);
+        	}
+        	else {
+        		//x가 m과 가까운 경우
+        		arr[0] = (int)Math.pow((m-startX)+(m-balls[i][0]), 2) + (int)Math.pow(startY-balls[i][1], 2);
+        		//x가 0과 가까운 경우
+        		arr[1] = (int)Math.pow(startX+balls[i][0], 2) + (int)Math.pow(startY-balls[i][1], 2);
+        		//y가 n과 가까운 경우
+        		arr[2] = (int)Math.pow((n-startY)+(n-balls[i][1]), 2) + (int)Math.pow(balls[i][0]-startX, 2);
+        		//y가 0과 가까운 경우
+        		arr[3] = (int)Math.pow(startY+balls[i][1], 2) + (int)Math.pow(balls[i][0]-startX, 2);
+        		
+        		//최소값
+        		int min = arr[0];
+        		for(int a=0; a<arr.length; a++) {
+        			if(min>arr[a]) {
+        				min=arr[a];
+        			}
+        		}
+        		answer[i]=min;
+        	}        	
         }
         return answer;
     }
 
 	public static void main(String[] args) {
 		System.out.println(Arrays.toString(solution(10,10,3,7, new int[][] {{7,7}, {2,7}, {7,3}})));
-		x=(Math.sqrt(Math.pow((3-5),2)+Math.pow((10-7),2)));
-		y=(Math.sqrt(Math.pow((7-5),2)+Math.pow((10-7),2)));
-		x=(Math.sqrt(Math.pow((3-0),2)+Math.pow((7-7.0),2)));
-		y=(Math.sqrt(Math.pow((2-0),2)+Math.pow((7-7.0),2)));
-		System.out.println(x);
-		System.out.println(y);
 	}
 
 }
