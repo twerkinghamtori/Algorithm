@@ -52,15 +52,16 @@ public class NumBaseBall {
     				chk += 1;
     			}
 			}
-			if(chk == nums.length) { //chk==3일때? 왜?
+			if(chk == nums.length) { //stack에서 만든 random숫자가 nums배열의 strike, ball 조건 모두 만족했을 때
 				answer+=1;
-			}
+//				System.out.println(all.peek()); //조건 만족하는 수 확인용
+			}			
 			all.pop();
 		}
 		return answer;
 	}
 	
-	public static int strike(String stack, String ori) {
+	public static int strike(String stack, String ori) { //strike 개수 리턴
 		int ans=0;
 		String[] stk2 = stack.split("");
 		String[] ori2 = ori.split("");
@@ -73,7 +74,7 @@ public class NumBaseBall {
 		return ans;
 	}
 	
-	public static int ball(String stack, String ori) {
+	public static int ball(String stack, String ori) { //ball 개수 리턴
 		int ans=0;
 		
 		String[] stk2 = stack.split("");
