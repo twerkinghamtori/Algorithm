@@ -1,8 +1,5 @@
 package complete;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class Babbling {
 
 	public static void main(String[] args) {
@@ -17,7 +14,7 @@ public class Babbling {
 			}
 		}
 		for(String s : babbling) {
-			System.out.println(s);
+//			System.out.println(s);
 			if(s.trim().equals("")) {
 				answer++;
 			}
