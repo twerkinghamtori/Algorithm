@@ -36,11 +36,5 @@ public class Phonekemon {
         //폰켓몬 종류가 N/2 보다 작을 때, 폰켓몬 종류만큼만 조합 가능
         else answer = hm.size();
         return answer;
-    }
-	
-	public static void main(String[] args) {
-		// TODO Auto-generated method stub
-
-	}
-
+    }	
 }
