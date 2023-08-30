@@ -13,7 +13,7 @@ import java.util.*;
 베스트 앨범에 들어갈 노래의 고유 번호를 순서대로 return 하도록 solution 함수를 완성하세요.
  */
 
-// <장르, 횟수 합> -> 정렬 -> <고유번호, 횟수> -> 정렬 -> answerList 추가 -> list 배열로 변환
+//<장르, 횟수 합> -> 정렬 -> <고유번호, 횟수> -> 정렬 -> answerList 추가 -> list 배열로 변환
 
 public class BestAlbum {
 	public static int[] solution(String[] genres, int[] plays) {
