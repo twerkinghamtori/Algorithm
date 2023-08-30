@@ -18,49 +18,49 @@ import java.util.*;
 public class BestAlbum {
 	public static int[] solution(String[] genres, int[] plays) {
 		List<Integer> answerList = new ArrayList<>();
-		//<장르, 재생횟수의 합>
-        HashMap<String, Integer> hm = new HashMap<>();
-        for(int i=0; i<genres.length; i++) {
-        	if(!hm.containsKey(genres[i])) {
-        		hm.put(genres[i], plays[i]);
-        	} else {
-        		int gp = hm.get(genres[i]);
-        		gp += plays[i];
-        		hm.put(genres[i], gp);
-        	}
-        }
-        //장르별 재생횟수에 따라 내림차순으로 해시맵 정렬
-        List<String> list =  new ArrayList<>(hm.keySet());
-        if(list.size()>=2) { //장르가 1개만 존재할 경우 제외
-            list.sort((i1,i2) -> hm.get(i2) - hm.get(i1));
-        }
-        //내림차순 정렬된 장르 순서대로 하나씩 반복
-        for(String s : list) {
-        	//<고유번호, 재생횟수>
-        	HashMap<Integer, Integer> hm2 = new HashMap<>();
-            for(int i=0; i<genres.length; i++) {
-                if(genres[i].equals(s)) {
-                    hm2.put(i, plays[i]);
-                }
-            }
-            //고유번호 별 재생횟수에 따라 내림차순으로 정렬
-            List<Integer> list2 = new ArrayList<>(hm2.keySet());         
-            if(list2.size() < 2) { //고유번호가 1개만 존재할 경우
-                answerList.add(list2.get(0));
-            } else {
-                list2.sort((o1,o2) -> hm2.get(o2)-hm2.get(o1));  
-                //재생횟수 같은 경우, 고유번호가 낮은 노래 먼저 수록(3번 조건)
-                if(list2.get(0) == list2.get(1) && list2.get(0) > list2.get(1)) {
-                        answerList.add(list2.get(1));
-                        answerList.add(list2.get(0));
-                } else {
-                  answerList.add(list2.get(0));
-                  answerList.add(list2.get(1));  
-                }               
-            }             
-        }        
-        //list -> 배열
-        int[] answer = answerList.stream().mapToInt(i->i).toArray();
-        return answer;
+		// <장르, 재생횟수의 합>
+		HashMap<String, Integer> hm = new HashMap<>();
+		for (int i = 0; i < genres.length; i++) {
+			if (!hm.containsKey(genres[i])) {
+				hm.put(genres[i], plays[i]);
+			} else {
+				int gp = hm.get(genres[i]);
+				gp += plays[i];
+				hm.put(genres[i], gp);
+			}
+		}
+		// 장르별 재생횟수에 따라 내림차순으로 해시맵 정렬
+		List<String> list = new ArrayList<>(hm.keySet());
+		if (list.size() >= 2) { // 장르가 1개만 존재할 경우 제외
+			list.sort((i1, i2) -> hm.get(i2) - hm.get(i1));
+		}
+		// 내림차순 정렬된 장르 순서대로 하나씩 반복
+		for (String s : list) {
+			// <고유번호, 재생횟수>
+			HashMap<Integer, Integer> hm2 = new HashMap<>();
+			for (int i = 0; i < genres.length; i++) {
+				if (genres[i].equals(s)) {
+					hm2.put(i, plays[i]);
+				}
+			}
+			// 고유번호 별 재생횟수에 따라 내림차순으로 정렬
+			List<Integer> list2 = new ArrayList<>(hm2.keySet());
+			if (list2.size() < 2) { // 고유번호가 1개만 존재할 경우
+				answerList.add(list2.get(0));
+			} else {
+				list2.sort((o1, o2) -> hm2.get(o2) - hm2.get(o1));
+				// 재생횟수 같은 경우, 고유번호가 낮은 노래 먼저 수록(3번 조건)
+				if (list2.get(0) == list2.get(1) && list2.get(0) > list2.get(1)) {
+					answerList.add(list2.get(1));
+					answerList.add(list2.get(0));
+				} else {
+					answerList.add(list2.get(0));
+					answerList.add(list2.get(1));
+				}
+			}
+		}
+		// list -> 배열
+		int[] answer = answerList.stream().mapToInt(i -> i).toArray();
+		return answer;
 	}
 }
