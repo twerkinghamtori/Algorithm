@@ -5,7 +5,7 @@ import java.io.*;
 
 //백준 11286 절댓값 힙
 //우선순위 큐 : 우선순위가 가장 높은 값이 먼저 나옴
-//데이터가 삽입될 때마다 정렬이 필요하므로 우선순위 큐를 이용
+//데이터가 삽입될 때마다 정렬이 필요하므로 우선순위 큐를 이용 -> 절대값으로 정렬해야 하므로 정렬방식 직접 지정
 public class AbsHeap {
 
 	public static void main(String[] args) throws IOException {
