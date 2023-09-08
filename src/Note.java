@@ -5,38 +5,28 @@ public class Note {
 
 	public static void main(String[] args) throws IOException {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));		
+		String[] minus = br.readLine().split("-");
 		
-		int n = Integer.parseInt(br.readLine());
-		StringTokenizer st;
+		int init = Integer.MAX_VALUE; //초기값 설정
 		
-		int[][] time = new int[n][2];
-		for(int i=0; i<time.length; i++) {
-			st = new StringTokenizer(br.readLine());
-			time[i][0] = Integer.parseInt(st.nextToken());
-			time[i][1] = Integer.parseInt(st.nextToken());
-		}
-		
-		Arrays.sort(time, (o1,o2)-> {
-			if (o1[1] == o2[1]) {
-		        return o1[0] - o2[0];
-		    } else {
-		        return o1[1] - o2[1];
-		    }
-		});
-		
-		int cnt = 1;
-		int end = time[0][1];
-		for(int i=1; i<n; i++) {	
-			if(time[i][0] == time[i][1]) {
-				cnt++;
-				continue;
-			} 
-			if(time[i][0] >= end) {
-				cnt++;
-				end = time[i][1];
+		for(int i=0; i<minus.length; i++) {
+			String[] plus = minus[i].split("\\+"); //+는 정규식에서 특수한 문자 => 이스케이프 처리 해야함
+			
+			int sum = 0;
+			for(int j=0; j<plus.length; j++) {
+				sum+=Integer.parseInt(plus[j]);
 			}
+			
+			if(init == Integer.MAX_VALUE) {
+				init = sum;
+			} else {
+				init -= sum;
+			}
+			
 		}
-		System.out.println(cnt);
+		
+		System.out.println(init);
+		
 	}
 
 }
