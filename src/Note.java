@@ -4,34 +4,41 @@ import java.io.*;
 public class Note {
 
 	public static void main(String[] args) throws IOException {
-		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-		int n = Integer.parseInt(br.readLine());
+		Scanner scan = new Scanner(System.in);
+
+		int n = scan.nextInt();
+		int five = Integer.MAX_VALUE;
+		int three = Integer.MAX_VALUE;
+		boolean b = false;
+
+		List<Integer> list = new ArrayList<>();
+
+		if (n % 5 == 0) {
+			five = n / 5;
+			list.add(five);
+		}
 		
-		//우선순위 큐
-		PriorityQueue<Integer> q = new PriorityQueue<>((o1,o2) -> {						
-			int a = Math.abs(o1);
-			int b = Math.abs(o2);
-			
-			//절대값이 같은 경우 음수 우선
-			if(a==b) {
-				return o1 > o2? 1 : -1; //비교자(Comparator)에서 -1을 반환하면 작은 값이 먼저 정렬됨
-			}
-			//절대값 작은 데이터 우선
-			return a-b;			
-		});
+		if (n % 3 == 0) {
+			three = n / 3;
+			list.add(five);
+		}
 		
-		for(int i=0; i<n; i++) {
-			int num = Integer.parseInt(br.readLine());
-			if(num == 0) {
-				if(q.isEmpty()) {
-					System.out.println("0");
-				} else {
-					System.out.println(q.poll());
+		for(int i=0; i<=n/5; i++) {
+			for(int j=0; j<=n/3; j++) {
+				if(i*5+j*3 == n) {
+					b=true;
+					list.add(i+j);
 				}
-			} else {
-				q.add(num);
 			}
-		}		
+		}
+
+		if (five == Integer.MAX_VALUE && three == Integer.MAX_VALUE&& !b)
+			System.out.println(-1);
+		else {
+			list.sort((o1, o2) -> o1 - o2);
+			System.out.println(list.get(0));
+		}
+
 	}
 
 }
