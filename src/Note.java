@@ -6,34 +6,21 @@ public class Note {
 	public static void main(String[] args) throws IOException {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		
-		int t = Integer.parseInt(br.readLine());
+		String str = br.readLine();
 		
-		StringTokenizer st;
+		int cnt0 = 0;
+		int cnt1 = 0;
 		
-		int[] answer = new int[t];	
-		for(int i=0; i<t; i++) {
-			int a = Integer.parseInt(br.readLine());
-			int[][] arr = new int[a][2];
-			for(int j=0; j<a; j++) {
-				st = new StringTokenizer(br.readLine());
-				arr[j][0] = Integer.parseInt(st.nextToken());
-				arr[j][1] = Integer.parseInt(st.nextToken());
+		if(str.substring(0,1).equals("0")) cnt0++;
+		else cnt1++;
+		
+		for(int i=1; i<str.length(); i++) {
+			if(!str.substring(i,i+1).equals(str.substring(i-1,i))) {
+				if(str.substring(i,i+1).equals("0")) cnt0++;
+				else cnt1++;
 			}
-			Arrays.sort(arr, (o1,o2) -> o1[0] - o2[0]); //서류 기준 정렬
-			int cnt = 1;
-			int min = arr[0][1];
-			for(int j=1; j<arr.length; j++) {				
-				if(min > arr[j][1]) {
-					cnt++;
-					min = arr[j][1];
-				} 
-			}	
-			answer[i] = cnt;
 		}
 		
-		for(int i : answer) {
-			System.out.println(i);
-		}
+		System.out.println(Math.min(cnt0, cnt1));
 	}
-
 }
