@@ -6,21 +6,28 @@ public class Note {
 	public static void main(String[] args) throws IOException {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		
-		String str = br.readLine();
+		StringTokenizer st;		
 		
-		int cnt0 = 0;
-		int cnt1 = 0;
-		
-		if(str.substring(0,1).equals("0")) cnt0++;
-		else cnt1++;
-		
-		for(int i=1; i<str.length(); i++) {
-			if(!str.substring(i,i+1).equals(str.substring(i-1,i))) {
-				if(str.substring(i,i+1).equals("0")) cnt0++;
-				else cnt1++;
+		List<Integer> list = new ArrayList<>();
+		while(true) {					
+			st = new StringTokenizer(br.readLine());;		
+			int l = Integer.parseInt(st.nextToken());
+			int p = Integer.parseInt(st.nextToken());
+			int v = Integer.parseInt(st.nextToken());
+			if(l==0 && p==0 && v==0) break;
+			else {
+				int answer = 0;
+				if(v%p > l) {
+					answer = v/p*l + l;
+				} else {
+					answer = v/p*l + v%p;
+				}				
+				list.add(answer);				
 			}
 		}
 		
-		System.out.println(Math.min(cnt0, cnt1));
+		for(int i=0; i<list.size(); i++) {
+			System.out.println("Case " + (i+1) + ": " + list.get(i));
+		}
 	}
 }
