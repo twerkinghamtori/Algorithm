@@ -4,7 +4,6 @@ import java.util.*;
 import java.io.*;
 
 //백준 1012 유기농배추 dfs
-
 public class OrganicCabbage {
 	
 	static boolean visited[][]; //방문 배열
