@@ -40,7 +40,7 @@ public class Alphabet {
 	}
 
 	private static void dfs(int y, int x, int cnt) {
-		// 이미 방문한 알파벳을 만나면 최대 길이를 업데이트하고 탐색을 종료s
+		// 이미 방문한 알파벳을 만나면 최대 길이를 업데이트하고 탐색을 종료
 		if(visited[board[y][x]]) {
 			answer = Math.max(answer , cnt);
 			return;
