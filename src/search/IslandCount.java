@@ -39,13 +39,6 @@ public class IslandCount {
 				}
 			}
 			System.out.println(cnt);
-//			for(int i=0; i<visited.length; i++) {
-//				for(int j=0; j<visited[i].length; j++) {
-//					System.out.print(visited[i][j] + "\t");
-//				}
-//				System.out.println();
-//			}
-//			System.out.println("===============");
 			
 		}
 	}
