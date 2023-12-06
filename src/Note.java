@@ -2,66 +2,63 @@
 import java.util.*;
 import java.io.*;
 
+//백준 7568 덩치 정렬, 구현
 public class Note {
 	public static void main(String args[]) throws IOException {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		StringTokenizer st = new StringTokenizer(br.readLine());
-		int n = Integer.parseInt(st.nextToken());
-		int k = Integer.parseInt(st.nextToken());
-
-		List<Country> list = new ArrayList<>();
+		int n = Integer.parseInt(st.nextToken()); //사람 수
+		
+		List<Person> list = new ArrayList<>(); //사람 정보를 저장할 리스트
+		
 		for(int i=0; i<n; i++) {
 			String[] temp = br.readLine().split(" ");
-			int num = Integer.parseInt(temp[0]);
-			int gold = Integer.parseInt(temp[1]);
-			int silver = Integer.parseInt(temp[2]);
-			int bronze = Integer.parseInt(temp[3]);
-			list.add(new Country(num, gold, silver, bronze, 0));
+			list.add(new Person(i,Integer.parseInt(temp[0]),Integer.parseInt(temp[1]), 0)); //번호, 몸무게, 키, 등수
 		}
+		//입력 끝
 		
+		//몸무게가 큰 순서대로 정렬. 같다면 키가 큰 순서대로 정렬
 		Collections.sort(list);
-
-		list.get(0).rate = 1;
 		
-		int end = 0;
+		list.get(0).rate = 1; //첫번째는 1등
+		
+		int cnt = 0;
 		
 		for(int i=1; i<list.size(); i++) {
-			int g = list.get(i-1).gold;
-			int s = list.get(i-1).silver;
-			int b = list.get(i-1).bronze;
-			Country cur = list.get(i);
-			if(list.get(i).num == k) {
-				end = i;
+			Person p = list.get(i);
+			//p 보다 앞 순서의  배열을 순회하며 몸무게와 키가 더 큰 사람의 수를 카운트
+			for(int j=0; j<i; j++) {
+				if(p.w< list.get(j).w && p.h < list.get(j).h) cnt++;
 			}
-			if(cur.gold == g && cur.silver == s && cur.bronze == b) {
-				list.get(i).rate = list.get(i-1).rate;
-			} else {
-				list.get(i).rate = i+1;
-			}
+			//자신보다 더 큰 덩치의 사람이 k명이라면 그 사람의 덩치 등수는 k+1 (문제 조건)
+			p.rate = cnt+1;
+			cnt = 0; //카운트 초기화
 		}
-		System.out.println(list.get(end).rate);
-	}	
+		
+		//출력을 위해 다시 번호 순서대로 정렬
+		Collections.sort(list, (o1,o2) -> o1.num - o2.num);
+		
+		for(int i=0; i<list.size(); i++) {
+			System.out.print(list.get(i).rate);
+			if(i != list.size()-1) System.out.print(" ");
+		}
+	}
+
 }
 
-class Country implements Comparable<Country> {
-	int num, gold, silver, bronze, rate;
-	
-	Country(int num, int gold, int silver, int bronze, int rate) {
+class Person implements Comparable<Person> {
+	int num, w,h,rate;
+	Person(int num, int w, int h, int rate) {
 		this.num = num;
-		this.gold = gold;
-		this.silver = silver;
-		this.bronze = bronze;
+		this.w = w;
+		this.h = h;
 		this.rate = rate;
 	}
 
 	@Override
-	public int compareTo(Country c) {
-		if(this.gold != c.gold) {
-			return c.gold- this.gold;
-		} 
-		if(this.silver != c.silver) {
-			return c.silver - this.silver;
-		}
-		return c.bronze - this.bronze;
+	public int compareTo(Person p) {
+		if(p.w != this.w) {
+			return p.w - this.w;
+		} else return p.h - this.h;		
 	}
 }
