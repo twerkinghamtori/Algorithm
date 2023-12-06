@@ -2,63 +2,50 @@
 import java.util.*;
 import java.io.*;
 
-//백준 7568 덩치 정렬, 구현
 public class Note {
 	public static void main(String args[]) throws IOException {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-		StringTokenizer st = new StringTokenizer(br.readLine());
-		int n = Integer.parseInt(st.nextToken()); //사람 수
-		
-		List<Person> list = new ArrayList<>(); //사람 정보를 저장할 리스트
-		
-		for(int i=0; i<n; i++) {
-			String[] temp = br.readLine().split(" ");
-			list.add(new Person(i,Integer.parseInt(temp[0]),Integer.parseInt(temp[1]), 0)); //번호, 몸무게, 키, 등수
-		}
-		//입력 끝
-		
-		//몸무게가 큰 순서대로 정렬. 같다면 키가 큰 순서대로 정렬
-		Collections.sort(list);
-		
-		list.get(0).rate = 1; //첫번째는 1등
-		
-		int cnt = 0;
-		
-		for(int i=1; i<list.size(); i++) {
-			Person p = list.get(i);
-			//p 보다 앞 순서의  배열을 순회하며 몸무게와 키가 더 큰 사람의 수를 카운트
-			for(int j=0; j<i; j++) {
-				if(p.w< list.get(j).w && p.h < list.get(j).h) cnt++;
+		while(true) {
+			String s = br.readLine();
+			if(s.equals("end")) break;
+			boolean can = true;
+			int cnt = 0;
+			int v = 0;
+			int w = 0;
+			for(int i=0; i<s.length(); i++) {
+				if(isVowel(s.charAt(i))) {
+					v++;
+					w=0;
+					cnt++;
+				} 
+				else {
+					w++;
+					v=0;
+				}
+//				System.out.println(v + " " + w);
+				if(w>=3 || v>=3) {
+					can = false;
+					break;
+				}
 			}
-			//자신보다 더 큰 덩치의 사람이 k명이라면 그 사람의 덩치 등수는 k+1 (문제 조건)
-			p.rate = cnt+1;
-			cnt = 0; //카운트 초기화
+			for(int i=0; i<s.length()-1; i++) {
+				if(s.charAt(i) == s.charAt(i+1)) {
+					if(s.charAt(i) != 'e' && s.charAt(i) != 'o') can = false;
+				}
+			}
+			if(cnt == 0) can = false;
+			if(can) {
+				System.out.println("<" + s + "> is acceptable.");
+			} else {
+				System.out.println("<" + s + "> is not acceptable.");
+			}
 		}
 		
-		//출력을 위해 다시 번호 순서대로 정렬
-		Collections.sort(list, (o1,o2) -> o1.num - o2.num);
-		
-		for(int i=0; i<list.size(); i++) {
-			System.out.print(list.get(i).rate);
-			if(i != list.size()-1) System.out.print(" ");
-		}
+	}
+	
+	private static boolean isVowel(char c) {
+		if(c == 'a' || c == 'e' || c == 'i' || c == 'o' || c == 'u') return true;
+		else return false;
 	}
 
-}
-
-class Person implements Comparable<Person> {
-	int num, w,h,rate;
-	Person(int num, int w, int h, int rate) {
-		this.num = num;
-		this.w = w;
-		this.h = h;
-		this.rate = rate;
-	}
-
-	@Override
-	public int compareTo(Person p) {
-		if(p.w != this.w) {
-			return p.w - this.w;
-		} else return p.h - this.h;		
-	}
 }
