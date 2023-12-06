@@ -13,7 +13,7 @@ public class LineUp {
 		int n = Integer.parseInt(st.nextToken()); //학생수
 		int m = Integer.parseInt(st.nextToken()); //키를 비교한 횟수
 		
-		//위상정렬에 사용할 배열
+		//진입차수 카운트에 사용할 배열
 		int[] indegree = new int[n+1];
 		//위상정렬에 사용할 2차원 배열
 		ArrayList<ArrayList<Integer>> graph = new ArrayList<ArrayList<Integer>>();
