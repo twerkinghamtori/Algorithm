@@ -7,28 +7,61 @@ public class Note {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		StringTokenizer st = new StringTokenizer(br.readLine());
 		int n = Integer.parseInt(st.nextToken());
-		
-		while(n>0) {
-			n--;
-			st = new StringTokenizer(br.readLine());
-			int t = Integer.parseInt(st.nextToken());
-			
-			int result = 0;
-			
-			int[] arr = new int[20];
-			for(int i=0; i<arr.length; i++) {
-				arr[i] = Integer.parseInt(st.nextToken());
-			}
-			
-			for(int i=1; i<20; i++) {
-				for(int j=i-1; j>=0; j--) {
-					if(arr[j]>arr[i]) {
-						result++;
-					}
-				}
-			}
-			
-			System.out.println(t + " " + result);
+		int k = Integer.parseInt(st.nextToken());
+
+		List<Country> list = new ArrayList<>();
+		for(int i=0; i<n; i++) {
+			String[] temp = br.readLine().split(" ");
+			int num = Integer.parseInt(temp[0]);
+			int gold = Integer.parseInt(temp[1]);
+			int silver = Integer.parseInt(temp[2]);
+			int bronze = Integer.parseInt(temp[3]);
+			list.add(new Country(num, gold, silver, bronze, 0));
 		}
+		
+		Collections.sort(list);
+
+		list.get(0).rate = 1;
+		
+		int end = 0;
+		
+		for(int i=1; i<list.size(); i++) {
+			int g = list.get(i-1).gold;
+			int s = list.get(i-1).silver;
+			int b = list.get(i-1).bronze;
+			Country cur = list.get(i);
+			if(list.get(i).num == k) {
+				end = i;
+			}
+			if(cur.gold == g && cur.silver == s && cur.bronze == b) {
+				list.get(i).rate = list.get(i-1).rate;
+			} else {
+				list.get(i).rate = i+1;
+			}
+		}
+		System.out.println(list.get(end).rate);
+	}	
+}
+
+class Country implements Comparable<Country> {
+	int num, gold, silver, bronze, rate;
+	
+	Country(int num, int gold, int silver, int bronze, int rate) {
+		this.num = num;
+		this.gold = gold;
+		this.silver = silver;
+		this.bronze = bronze;
+		this.rate = rate;
+	}
+
+	@Override
+	public int compareTo(Country c) {
+		if(this.gold != c.gold) {
+			return c.gold- this.gold;
+		} 
+		if(this.silver != c.silver) {
+			return c.silver - this.silver;
+		}
+		return c.bronze - this.bronze;
 	}
 }
