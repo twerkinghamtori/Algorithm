@@ -6,58 +6,75 @@ public class Note {
 	public static void main(String args[]) throws IOException {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		StringTokenizer st = new StringTokenizer(br.readLine());
-		
-		int s = Integer.parseInt(st.nextToken());
-		int[] switches = new int[s+1];
-		
-		st = new StringTokenizer(br.readLine());
-		for(int i=1; i<=s; i++) {
-			switches[i] = Integer.parseInt(st.nextToken());
-		}
-		
-		st = new StringTokenizer(br.readLine());
 		int n = Integer.parseInt(st.nextToken());
+		BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
 		while(n>0) {
 			n--;
 			st = new StringTokenizer(br.readLine());
-			int gender = Integer.parseInt(st.nextToken());
-			int num = Integer.parseInt(st.nextToken());
-			if(gender == 1) {
-				for(int i=num; i<switches.length; i+=num) {
-					if(switches[i] == 1) switches[i] = 0;
-					else switches[i] = 1;
-				}
-			} else {
-				int end_point = 0;
-				for(int i=1; i<switches.length; i++) {
-					if(num-i<1 || num+i>=switches.length) break;
-					if(switches[num-i] == switches[num+i]) {
-						end_point = i;
-					} else {
-						break;
-					}
-				}
-				if(switches[num] == 1) switches[num] = 0;
-				else switches[num] = 1;
-				for(int i=1; i<=end_point; i++) {
-					if(switches[num-i] == 1) switches[num-i] = 0;
-					else switches[num-i] = 1;
-					if(switches[num+i] == 1) switches[num+i] = 0;
-					else switches[num+i] = 1;
+			int m = Integer.parseInt(st.nextToken());
+			int[] cnt= new int[m+1];
+			int[] arr = new int[m+1];
+			st = new StringTokenizer(br.readLine());
+			for(int i=1; i<=m; i++) {
+				int team = Integer.parseInt(st.nextToken());
+				arr[i] = team;
+				cnt[team]++;
+			}
+			int[] score = new int[m+1];
+			int s = 1;
+			for(int i=1; i<=m; i++) {
+				if(cnt[arr[i]]<6) {
+					continue;
+				} else {
+					score[i] = s;
+					s++;
 				}
 			}
-//			for(int i=1; i<switches.length; i++) {
-//				System.out.print(switches[i] + " ");
-//			}
-//			System.out.println();
+			Map<Integer, ArrayList<Integer>> map = new HashMap<>();
+			for(int i=1; i<=m; i++) {
+				if(score[i] != 0) {
+					if(!map.containsKey(arr[i])) {
+						map.put(arr[i], new ArrayList<>());						
+					} map.get(arr[i]).add(score[i]);
+				}
+			}
+			Map<Integer, Integer> scoreMap = new HashMap<>();
+			for(int i : map.keySet()) {
+				int sum = 0;
+				for(int z=0; z<4; z++) {
+					sum+=map.get(i).get(z);
+				}
+				scoreMap.put(i,sum);
+			}
+			int minScore = Integer.MAX_VALUE;
+			for(int i : scoreMap.keySet()) {
+				if(scoreMap.get(i) < minScore) {
+					minScore = scoreMap.get(i);
+				}
+			}
+			List<Integer> winners = new ArrayList<>();
+			for(int i : scoreMap.keySet()) {
+				if(scoreMap.get(i) == minScore) {
+					winners.add(i);
+				}
+			}
+			int winner = winners.get(0);
+			if(winners.size() == 1) {
+				winner = winners.get(0);
+			} else {
+				for(int i=1; i<winners.size(); i++) {
+					int team2 = winners.get(i);
+					if(map.get(winner).get(4) == map.get(team2).get(4)) {
+						if(map.get(winner).get(5) > map.get(team2).get(5)) {
+							winner = team2;
+						}
+					} else if(map.get(winner).get(4) > map.get(team2).get(4)) {
+						winner = team2;
+					}
+				}
+			}
+			bw.write(winner + "\n");
 		}
-		
-		for (int i = 1; i < switches.length; i++) {
-		    System.out.print(switches[i] + " ");
-		    if (i % 20 == 0) {
-		        System.out.println();
-		    }
-		}
-		
+		bw.flush();
 	}
 }
