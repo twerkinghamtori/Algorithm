@@ -6,49 +6,35 @@ public class Note {
 	public static void main(String args[]) throws IOException {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		StringTokenizer st = new StringTokenizer(br.readLine());
-		int n = Integer.parseInt(st.nextToken()); //굴다리 길이
-		st = new StringTokenizer(br.readLine());
-		int m = Integer.parseInt(st.nextToken()); //가로등 개수
-		st = new StringTokenizer(br.readLine());
-		int[] dir = new int[m];
-		for(int i=0; i<m; i++) {
-			dir[i] = Integer.parseInt(st.nextToken());
-		}
-		//입력 끝
-		int[] road = new int[n+1];
-		for(int i=0; i<=n; i++) {
-			road[i] = i;
-		}
-		List<Integer> interval = new ArrayList<>();
-		interval.add(dir[0]-0);
-		for(int i=0; i<dir.length-1; i++) {
-			if(!interval.contains(dir[i+1]-dir[i])) {
-				interval.add(dir[i+1]-dir[i]);
+		BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
+		int n = Integer.parseInt(st.nextToken()); //단어 수
+		int m = Integer.parseInt(st.nextToken()); //단어 길이
+		Map<String, Integer> words = new HashMap<>();
+		for(int i=0; i<n; i++) {
+			String s = br.readLine();
+			if(s.length() >= m) {
+				words.put(s,(words.getOrDefault(s, 0)+1));
 			}			
 		}
-		interval.add(n-dir[m-1]);
-		Collections.sort(interval);
+		String [] dic = new String[words.size()];
+		int idx = 0;
+		for(String s : words.keySet()) {
+			dic[idx] = s;
+			idx++;
+		}
+		
+		//알파벳 순 정렬
+		Arrays.sort(dic);
 
-		for(int i=0; i<=n; i++) {
-			boolean b = true;
-			if(dir[0]-i>0) {
-				b = false;
-			} 
-			else if(dir[m-1] + i <n) {
-				b = false;
-			}
-			if(b) {
-				for(int j=0; j<dir.length-1; j++) {
-					if(dir[j] + i < dir[j+1] - i) {
-						b = false;
-						break;
-					}
-				}
-			}			
-			if(b) {
-				System.out.println(i);
-				break;
-			} 
+		//길이 긴 순서로 정렬
+		Arrays.sort(dic, (o1,o2) -> o2.length() - o1.length());
+		
+		//자주 나오는 순서로 정렬
+		Arrays.sort(dic, (o1, o2) -> words.get(o2) - (words.get(o1)));
+		
+		for(String s : dic) {
+			bw.write(s + "\n");
 		}
+		bw.flush();
 	}
 }
