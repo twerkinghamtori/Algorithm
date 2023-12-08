@@ -4,7 +4,7 @@ package incomplete;
 import java.util.*;
 import java.io.*;
 
-//백준 1205 등수 구하기 미해결
+//백준 1205 등수 구하기 해결, class 중복으로 incomplete 패키지에 남겨둠
 public class Rating {
 	public static void main(String args[]) throws IOException {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
@@ -20,22 +20,27 @@ public class Rating {
 			st = new StringTokenizer(br.readLine());
 			for(int i=0; i<n; i++) {
 				list.add(new Person(i, Long.parseLong(st.nextToken()),0));			
-			}
-			list.get(0).rate = 1;
+			}					
 			
-			list.add(new Person(-1, score, 0));
+			list.add(new Person(-1, score, 0));	
 			
 			Collections.sort(list);
 			
-			for(int i=1; i<list.size(); i++) {
-				Person cur = list.get(i);
-				if(cur.score == list.get(i-1).score) cur.rate = list.get(i-1).rate;
-				else cur.rate = i+1;
-				if(list.get(i).num == -1) {
-					if(i+1 > p && p==n) System.out.println(-1);
-					else System.out.println(list.get(i).rate);
+			if(list.get(0).num == -1) {
+				System.out.println(1);
+			} else {
+				list.get(0).rate = 1;
+				
+				for(int i=1; i<list.size(); i++) {
+					Person cur = list.get(i);
+					if(cur.score == list.get(i-1).score) cur.rate = list.get(i-1).rate;
+					else cur.rate = i+1;
+					if(list.get(i).num == -1) {
+						if(i+1 > p && p==n) System.out.println(-1);
+						else System.out.println(list.get(i).rate);
+					}
 				}
-			}
+			}				
 			
 //			for(int i=0; i<list.size(); i++) {
 //				System.out.println(list.get(i).num + " " + list.get(i).score + " " + list.get(i).rate);
