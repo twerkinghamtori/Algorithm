@@ -2,42 +2,44 @@
 import java.util.*;
 import java.io.*;
 
+//백준 19637 IF문 좀 대신 써줘 이분탐색
 public class Note {
-	static int answer;
-	static int m;
-	static int n;
-	static int[][] path;
 	public static void main(String args[]) throws IOException {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		StringTokenizer st = new StringTokenizer(br.readLine());
-		m = Integer.parseInt(st.nextToken());
-		n = Integer.parseInt(st.nextToken());
-		path = new int[m][n];
-		for(int i=0; i<m; i++) {
-			st = new StringTokenizer(br.readLine());
-			for(int j=0; j<n; j++) {
-				path[i][j] = Integer.parseInt(st.nextToken());
-			}
-		}
-		//입력 끝
-		answer = Integer.MAX_VALUE; 
-		for(int i=0; i<n; i++) {
-			dfs(0,i, path[0][i], -2);
-		}
-		System.out.println(answer);
-	}
-	
-	private static void dfs(int x, int y, int sum, int lastdir) {
-		if(x == m-1) {
-			answer = Math.min(answer, sum);
-			return;
-		} 		
+		BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
+		int n = Integer.parseInt(st.nextToken());
+		int m = Integer.parseInt(st.nextToken());
+
+		String[][] title=new String[n][2];
 		
-		for(int i=0; i<=2; i++) {
-			int nx = x+1;
-			int ny = y+i-1;
-			if(ny<0 || ny>=n || i-1 == lastdir) continue;
-			dfs(nx, ny, sum + path[nx][ny], i-1);
+		for(int i=0;i<n;i++){
+		    st=new StringTokenizer(br.readLine());
+		    title[i][0]=st.nextToken();
+		    title[i][1]=st.nextToken();
 		}
+		
+		//이분탐색
+		for(int i=0;i<m;i++){
+            int num=Integer.parseInt(br.readLine());
+
+            int left=0;
+            int right=n-1;
+            int mid=(left+right)/2;
+            while(left<=right){
+                mid=(left+right)/2;
+
+                int titleInt=Integer.parseInt(title[mid][1]);
+                if(titleInt<num){
+                    left=mid+1;
+                }
+                else{
+                    right=mid-1;
+                }
+            }
+
+            bw.write(title[left][0]+"\n");
+        }
+		bw.flush();
 	}
 }
