@@ -25,7 +25,7 @@ public class MoonTrip {
 		}
 		//입력 끝
 		answer = Integer.MAX_VALUE; 
-		//첫째 줄 n개 순서대로 dfs 시작
+		//첫째 줄 n개, 순서대로 dfs 시작
 		for(int i=0; i<n; i++) {
 			dfs(0,i, path[0][i], -2); //첫번째 줄에서 방향 없도록 하기 위해 lastdir에 -2 전달
 		}
