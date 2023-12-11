@@ -3,38 +3,41 @@ import java.util.*;
 import java.io.*;
 
 public class Note {
+	static int answer;
+	static int m;
+	static int n;
+	static int[][] path;
 	public static void main(String args[]) throws IOException {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		StringTokenizer st = new StringTokenizer(br.readLine());
-		BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
-		int n = Integer.parseInt(st.nextToken()); //단어 수
-		int m = Integer.parseInt(st.nextToken()); //단어 길이
-		Map<String, Integer> words = new HashMap<>();
+		m = Integer.parseInt(st.nextToken());
+		n = Integer.parseInt(st.nextToken());
+		path = new int[m][n];
+		for(int i=0; i<m; i++) {
+			st = new StringTokenizer(br.readLine());
+			for(int j=0; j<n; j++) {
+				path[i][j] = Integer.parseInt(st.nextToken());
+			}
+		}
+		//입력 끝
+		answer = Integer.MAX_VALUE; 
 		for(int i=0; i<n; i++) {
-			String s = br.readLine();
-			if(s.length() >= m) {
-				words.put(s,(words.getOrDefault(s, 0)+1));
-			}			
+			dfs(0,i, path[0][i], -2);
 		}
-		String [] dic = new String[words.size()];
-		int idx = 0;
-		for(String s : words.keySet()) {
-			dic[idx] = s;
-			idx++;
+		System.out.println(answer);
+	}
+	
+	private static void dfs(int x, int y, int sum, int lastdir) {
+		if(x == m-1) {
+			answer = Math.min(answer, sum);
+			return;
+		} 		
+		
+		for(int i=0; i<=2; i++) {
+			int nx = x+1;
+			int ny = y+i-1;
+			if(ny<0 || ny>=n || i-1 == lastdir) continue;
+			dfs(nx, ny, sum + path[nx][ny], i-1);
 		}
-		
-		//알파벳 순 정렬
-		Arrays.sort(dic);
-
-		//길이 긴 순서로 정렬
-		Arrays.sort(dic, (o1,o2) -> o2.length() - o1.length());
-		
-		//자주 나오는 순서로 정렬
-		Arrays.sort(dic, (o1, o2) -> words.get(o2) - (words.get(o1)));
-		
-		for(String s : dic) {
-			bw.write(s + "\n");
-		}
-		bw.flush();
 	}
 }
