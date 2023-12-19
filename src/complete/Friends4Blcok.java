@@ -82,6 +82,7 @@ public class Friends4Blcok {
     private static void down(String[][] map) {
         for (int i = 0; i < map[0].length; i++) {
             int emptyCount = 0; // 빈 공간의 개수
+            //아래부터 탐색
             for (int j = map.length - 1; j >= 0; j--) {
                 if (map[j][i].equals("")) {
                     emptyCount++;
