@@ -5,26 +5,39 @@ import java.io.*;
 public class Note {
 	public static void main(String args[]) throws IOException {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
 		String s = br.readLine();
-		int[] arr = new int[2];
-		for(int i=0; i<s.length(); i++) {
-			arr[Integer.parseInt(s.substring(i,i+1))]++;
-		}
-		arr[0]/=2;
-		arr[1]/=2;
-		
-		for(int i=0; i<s.length() && arr[1]!=0; i++) {
-			if(s.charAt(i) == '1') {
-																															
+		int m = Integer.parseInt(br.readLine());
+		LinkedList<Character> list = new LinkedList<>();
+        for (char c : s.toCharArray()) {
+            list.add(c);
+        }
+        
+        ListIterator<Character> cursor = list.listIterator(list.size());
+
+		while(m>0) {
+			StringTokenizer st = new StringTokenizer(br.readLine());
+			String command = st.nextToken();
+			if(command.equals("L") && cursor.hasPrevious()) {
+				cursor.previous();
+			} else if(command.equals("D") && cursor.hasNext()) {
+				cursor.next();
+			} else if(command.equals("B") && cursor.hasPrevious()) {
+				cursor.previous();
+				cursor.remove();
+			} else if(command.equals("P")) {
+				String word = st.nextToken();
+                for (char c : word.toCharArray()) {
+                    cursor.add(c);
+                }
 			}
+			m--;
 		}
+		
 		StringBuilder sb = new StringBuilder();
-		for(int i=1; i<=arr[0]/2; i++) {
-			sb.append("0");
-		}
-		for(int i=1; i<=arr[1]/2; i++) {
-			sb.append("1");
-		}																
+		for (char c : list) {
+			sb.append(c);
+        }
 		System.out.println(sb.toString());
 	}
 }
