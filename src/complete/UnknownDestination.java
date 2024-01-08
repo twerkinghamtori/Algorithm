@@ -38,6 +38,7 @@ public class UnknownDestination {
 			n = Integer.parseInt(st.nextToken()); //교차로 수
 			m = Integer.parseInt(st.nextToken()); //도로 수
 			t = Integer.parseInt(st.nextToken()); //목적지 후보 수
+			
 			st = new StringTokenizer(br.readLine());
 			s = Integer.parseInt(st.nextToken()); //출발 점
 			g = Integer.parseInt(st.nextToken()); //지나간 교차로1
