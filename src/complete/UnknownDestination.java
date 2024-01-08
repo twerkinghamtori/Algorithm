@@ -59,21 +59,25 @@ public class UnknownDestination {
 				list.get(end).add(new Way(start, weight));
 			}
 			
+			//목적지 후보 배열
 			int[] destination = new int[t];
+			
 			for(int i=0; i<t; i++) {
 				destination[i] = Integer.parseInt(br.readLine());
 			}
+			//입력 끝
 			
+			//정렬을 위한 정답 배열
 			List<Integer> ansList = new ArrayList<>();
 			
 			for(int i=0; i<t; i++) {	
-				//출발지 -> g -> h -> 목적지 경로
+				//출발지 -> g -> h -> 목적지로 간 경우
 				int res1 = 0;
 				res1 += dijkstra(s, g);
 				res1 += dijkstra(g,h);
 				res1 += dijkstra(h,destination[i]);
 				
-				//출발지 -> h -> g -> 목적지 경로
+				//출발지 -> h -> g -> 목적지로 간 경우
 				int res2 = 0;
 				res2 += dijkstra(s,h);
 				res2 += dijkstra(h,g);
@@ -84,7 +88,7 @@ public class UnknownDestination {
 				res3 += dijkstra(s,destination[i]);
 				
 				if(res1>=INF && res2>=INF) continue; //경로가 없는 경우
-				else if(Math.min(res1, res2) != res3) { //res1과 res2의 최단거리와 경유하지 않고 목적지로 바로 가는 경우가 다른 경우 -> 목적지가 아님
+				else if(Math.min(res1, res2) != res3) { //g와 h를 경유한 최단거리와 경유하지 않고 목적지로 바로 가는 경우가 다른 경우 -> 목적지가 아님
 					continue;
 				} else {
 					ansList.add(destination[i]);
