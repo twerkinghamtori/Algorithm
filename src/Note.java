@@ -2,36 +2,34 @@
 import java.util.*;
 import java.io.*;
 
-class Path implements Comparable<Path> {
+class Route implements Comparable<Route> {
 	int end;
 	int weight;
 	
-	Path(int end, int weight) {
+	Route(int end, int weight) {
 		this.end = end;
 		this.weight = weight;
 	}
 	
 	@Override
-	public int compareTo(Path p) {
-		return weight - p.weight;
+	public int compareTo(Route r) {
+		return weight - r.weight;
 	}
 }
 public class Note {
-	static final int INF = 987654321;
-	static ArrayList<ArrayList<Path>> list;
-	static int V,E,K;
+	static final int INF = 200000000;
+	static int N,E,u,v;
+	static ArrayList<ArrayList<Route>> list;
 	public static void main(String args[]) throws IOException {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
 		StringTokenizer st = new StringTokenizer(br.readLine());
 		
-		V = Integer.parseInt(st.nextToken());
+		N = Integer.parseInt(st.nextToken());
 		E = Integer.parseInt(st.nextToken());
 		
-		K = Integer.parseInt(br.readLine());
-		
 		list = new ArrayList<>();
-		for(int i=0; i<=V; i++) {
+		for(int i=0; i<=N; i++) {
 			list.add(new ArrayList<>());
 		}
 		
@@ -40,49 +38,59 @@ public class Note {
 			int start = Integer.parseInt(st.nextToken());
 			int end = Integer.parseInt(st.nextToken());
 			int weight = Integer.parseInt(st.nextToken());
-			list.get(start).add(new Path(end, weight));
+			list.get(start).add(new Route(end, weight));
+			list.get(end).add(new Route(start, weight));
 		}
 		
-		int[] dist = dijkstra(list);
+		st = new StringTokenizer(br.readLine());
+		u = Integer.parseInt(st.nextToken());
+		v = Integer.parseInt(st.nextToken());
 		
-		for(int i=1; i<=V; i++) {
-			if(dist[i] == INF) {
-				bw.write("INF" + "\n");
-			} else {
-				bw.write(dist[i] + "\n");
-			}
-		}
+		int[] dist1 = dijkstra(list, 1);
+		int[] dist2 = dijkstra(list, u);
+		int[] dist3 = dijkstra(list, v);
 		
+		// 1 -> u -> v -> N으로 가는 경우
+		int dir1 = dist1[u] + dist2[v] + dist3[N]; 
+		
+		// 1 -> v -> u -> N으로 가는 경우
+		int dir2 = dist1[v] + dist3[u] + dist2[N];
+		
+		int answer = (dir1 >= INF && dir2 >= INF) ? -1 : Math.min(dir1, dir2);
+		
+		bw.write(answer + "\n");
+
 		bw.flush();
 		bw.close();
 		br.close();
 	}
 	
-	static int[] dijkstra(ArrayList<ArrayList<Path>> a) {
-		PriorityQueue<Path> pq = new PriorityQueue<>();
-		pq.add(new Path(K,0));
+	static int[] dijkstra(ArrayList<ArrayList<Route>> a, int first) {
+		PriorityQueue<Route> pq = new PriorityQueue<>();
+		pq.add(new Route(first, 0));
 		
-		boolean[] check = new boolean[V+1];
-		int[] dist = new int[V+1];
+		boolean[] check = new boolean[N+1];
+		int[] dist = new int[N+1];
 		Arrays.fill(dist, INF);
-		dist[K] = 0;
+		dist[first] = 0;
 		
 		while(!pq.isEmpty()) {
-			Path curPath = pq.poll();
-			int cur = curPath.end;
+			Route curRoute = pq.poll();
+			int cur = curRoute.end;
 			
 			if(!check[cur]) {
 				check[cur] = true;
 				
-				for(Path p : a.get(cur)) {
-					if(!check[p.end] && dist[p.end] > dist[cur] + p.weight) {
-						dist[p.end] = dist[cur] + p.weight;
-						pq.add(new Path(p.end, dist[p.end]));
+				for(Route r : a.get(cur)) {
+					if(!check[r.end] && dist[r.end] > dist[cur] + r.weight) {
+						dist[r.end] = dist[cur] + r.weight;
+						pq.add(new Route(r.end, dist[r.end]));
 					}
 				}
 			}
 		}
 		return dist;
 	}
+	
 }
 
