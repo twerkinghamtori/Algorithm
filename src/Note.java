@@ -2,84 +2,80 @@
 import java.util.*;
 import java.io.*;
 
-class Bus implements Comparable<Bus> {
-	int end;
-	int cost;
-	
-	Bus(int end, int cost) {
-		this.end = end;
-		this.cost = cost;
-	}
-	
-	@Override
-	public int compareTo(Bus b) {
-		return cost - b.cost;
-	}
-}
-
 public class Note {
-	
-	static final int INF = 10000000;
-	static int N,M;
-	static ArrayList<ArrayList<Bus>> bus;
+	static boolean[] visited;
+	static int n;
+	static StringBuilder sb = new StringBuilder();
+	static int[][] board;
+	static Queue<Integer> q = new LinkedList<>();
 	
 	public static void main(String args[]) throws IOException {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));		
-		StringTokenizer st;
+		StringTokenizer st = new StringTokenizer(br.readLine());
 		
-		N = Integer.parseInt(br.readLine());
-		M = Integer.parseInt(br.readLine());
+		n = Integer.parseInt(st.nextToken());
+		int m = Integer.parseInt(st.nextToken());
+		int v = Integer.parseInt(st.nextToken());
 		
-		bus = new ArrayList<>();
+		board = new int[n+1][n+1];
 		
-		for(int i=0; i<=N; i++) {
-			bus.add(new ArrayList<>());
-		}
-		
-		for(int i=0; i<M; i++) {
+		while(m>0) {
+			m--;
 			st = new StringTokenizer(br.readLine());
-			int start = Integer.parseInt(st.nextToken());
-			int end = Integer.parseInt(st.nextToken());
-			int cost = Integer.parseInt(st.nextToken());
-			bus.get(start).add(new Bus(end, cost));			
+			int a = Integer.parseInt(st.nextToken());
+			int b = Integer.parseInt(st.nextToken());
+			board[a][b] = 1;
+			board[b][a] = 1;
 		}
+		visited = new boolean[n+1];
 		
-		st = new StringTokenizer(br.readLine());
-		int s = Integer.parseInt(st.nextToken());
-		int e = Integer.parseInt(st.nextToken());
-		bw.write(dijkstra(s,e) + "\n");
+		dfs(v, 0);
 		
+		sb.append("\n");
+		visited = new boolean[n+1];
+		bfs(v,0);
+
+		bw.write(sb.toString());
 		bw.flush();
 		bw.close();
 		br.close();
 	}
-	
-	static int dijkstra(int start, int end) {
-		PriorityQueue<Bus> pq = new PriorityQueue<>();
-		pq.add(new Bus(start, 0));
+
+	private static void dfs(int v, int depth) {
+		if(depth == n) {
+			return;
+		}
 		
-		boolean[] check = new boolean[N+1];
-		int[] dist = new int[N+1];
-		Arrays.fill(dist,  INF);
-		dist[start] = 0;
-		
-		while(!pq.isEmpty()) {
-			Bus curBus = pq.poll();
-			int cur = curBus.end;
+		if(!visited[v]) {
+			visited[v] = true;
+			sb.append(v + " ");
+			for(int i=0; i<n+1; i++) {
+				if(board[v][i] == 1 && !visited[i]) {
+					dfs(i, depth+1);
+				}
+			}
+		}
+	}
+
+	private static void bfs(int v, int depth) {
+		if(!visited[v]) {
+			q.add(v);
+			visited[v] = true;
 			
-			if(!check[cur]) {
-				check[cur]  = true;
+			while(!q.isEmpty()) {
+				v = q.poll();
+				sb.append(v + " ");
 				
-				for(Bus b : bus.get(cur)) {
-					if(!check[b.end] && dist[b.end] > dist[cur] + b.cost) {
-						dist[b.end] = dist[cur] + b.cost;
-						pq.add(new Bus(b.end, dist[b.end]));
+				for(int i=1; i<n+1; i++) {
+					if(board[v][i] == 1 && !visited[i]) {
+						q.add(i);
+						visited[i]=true;
 					}
 				}
 			}
 		}
-		return dist[end];
+		
 	}
 	
 }
