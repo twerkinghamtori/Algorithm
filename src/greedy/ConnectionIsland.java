@@ -35,6 +35,7 @@ public class ConnectionIsland {
 				answer += costs[i][2];
 			}
 		}
+		
 		return answer;
 	}
 	
